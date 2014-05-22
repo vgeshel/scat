@@ -10,7 +10,11 @@ import (
 	"time"
 )
 
+var verbose bool = false
+
 func main() {
+	flag.BoolVar(&verbose, "v", false, "verbose")
+	
 	flag.Parse()
 
 	args := flag.Args()
@@ -45,7 +49,9 @@ func scat(remote string, local string) error {
 		return err
 	}
 
-	log.Printf("listening on %s", local)
+	if verbose {
+		log.Printf("listening on %s", local)
+	}
 
 	go acceptLoop(ln, local, remote)
 
@@ -61,7 +67,9 @@ func acceptLoop(ln net.Listener, local string, remote string) {
 			continue
 		}
 
-		log.Printf("accepted connection on %s", local)
+		if verbose {
+			log.Printf("accepted connection on %s", local)
+		}
 
 		go handleConnection(conn, remote)
 	}
@@ -77,7 +85,9 @@ func handleConnection(localConn net.Conn, remote string) {
 		return
 	}
 
-	log.Printf("connected to %s", remote)
+	if verbose {
+		log.Printf("connected to %s", remote)
+	}
 
 	go relay(localConn, remoteConn)
 
