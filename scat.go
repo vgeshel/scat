@@ -32,7 +32,7 @@ func main() {
 		err := scat(remote, local)
 		
 		if (err != nil) {
-			panic(err)
+			log.Fatalf("could not scat %s -> %s: %s", local, remote, err)
 		}
 	}
 
