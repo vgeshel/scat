@@ -1,5 +1,5 @@
-FROM scratch
+FROM stackbrew/busyboxplus
 MAINTAINER vgeshel@gmail.com
 ADD scat /bin/scat
-RUN chmod a+x /bin/scat
+RUN /bin/chmod a+x /bin/scat
 CMD ["/bin/scat"]
